@@ -18,15 +18,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <nav className="w-full bg-[var(--element-color)] h-16 p-2">
-          <ul className="w-full h-full flex justify-end items-center gap-x-4">
-            <li><Link href="/dashboard">Home</Link></li>
-            <li><Link href="/auth/login">Login</Link></li>
-            <li><Link href="/auth/register">Sign up</Link></li>
-            <li><Link href="/profile">Profile</Link></li>
+        <div className="w-full h-screen flex flex-col">
+          <nav className="w-full bg-[var(--element-color)] h-16 p-2">
+            <ul className="w-full h-full flex justify-end items-center gap-x-4">
+              <li><Link href="/dashboard">Home</Link></li>
+              <li><Link href="/auth/login">Login</Link></li>
+              <li><Link href="/auth/register">Sign up</Link></li>
+              <li><Link href="/profile">Profile</Link></li>
             </ul>
-            </nav>
-        {children}
+          </nav>
+          {children}
+        </div>
       </body>
     </html>
   );

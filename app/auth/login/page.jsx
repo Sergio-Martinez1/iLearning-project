@@ -28,10 +28,10 @@ function LoginPage() {
   });
 
   return (
-    <main className="w-full h-screen flex justify-center items-center">
+    <main className="w-full h-screen flex justify-center items-center px-2 grow">
       <form
         onSubmit={onSubmit}
-        className="flex flex-col px-8 py-4 bg-[var(--element-color)] w-96 rounded-2xl"
+        className="flex flex-col px-8 py-4 bg-[var(--element-color)] rounded-2xl"
       >
         <span className="self-center text-3xl font-bold mt-4 mb-8">
           Login In
