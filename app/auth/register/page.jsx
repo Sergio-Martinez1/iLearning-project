@@ -31,7 +31,7 @@ function RegisterPage() {
   });
 
   return (
-    <main className="w-full h-screen flex justify-center items-center">
+    <main className="w-full h-screen flex justify-center items-center grow px-6">
       <form
         onSubmit={onSubmit}
         className="flex flex-col px-8 py-4 bg-[var(--element-color)] w-96 rounded-2xl"
