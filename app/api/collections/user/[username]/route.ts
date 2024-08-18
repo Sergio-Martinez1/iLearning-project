@@ -23,8 +23,8 @@ export async function POST(req: NextRequest, { params }: { params: { username: S
     const BUCKET_URL = process.env.BUCKET_URL
     const session = await getServerSession()
 
-    if (!BUCKET_NAME || !BUCKET_URL) return NextResponse.json({ message: 'Server error' }, { status: 500 })
-    if (!session) return NextResponse.json({ message: 'Not authenticated' }, { status: 401 })
+    if (!BUCKET_NAME || !BUCKET_URL) return NextResponse.json({ error: 'Server error' }, { status: 500 })
+    if (!session) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 })
 
     try {
         const data = await req.formData()
@@ -37,10 +37,10 @@ export async function POST(req: NextRequest, { params }: { params: { username: S
         await connectDB()
         const userSession = await User.findOne({ username: session.user?.name })
         if (userSession.role !== 'admin') {
-            if (session?.user?.name !== params.username) return NextResponse.json({ message: 'Not allowed' }, { status: 403 })
+            if (session?.user?.name !== params.username) return NextResponse.json({ error: 'Not allowed' }, { status: 403 })
         }
         const userFound = await User.findOne({ username: params.username })
-        if (!userFound) return NextResponse.json({ message: 'User not found' }, { status: 400 })
+        if (!userFound) return NextResponse.json({ error: 'User not found' }, { status: 400 })
 
         if (thumbnail) {
             const unique_id = crypto.randomUUID()
@@ -58,6 +58,6 @@ export async function POST(req: NextRequest, { params }: { params: { username: S
 
     } catch (error) {
         console.error('Error:', error);
-        return NextResponse.json({ message: 'Server error' }, { status: 500 });
+        return NextResponse.json({ error: 'Server error' }, { status: 500 });
     }
 }
