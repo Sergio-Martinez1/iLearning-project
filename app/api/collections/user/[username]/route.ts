@@ -4,10 +4,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { Storage } from "@google-cloud/storage";
 import { getServerSession } from 'next-auth/next'
 import User from '../../../../../db/models/user.models'
-import { NextApiRequest } from 'next';
 import { credentials } from '@/libs/cloud_credentials';
 
-export async function GET(req: NextApiRequest, { params }: { params: { username: String } }) {
+export async function GET(req: NextRequest, { params }: { params: { username: String } }) {
     try {
         await connectDB()
         const user = await User.findOne({ username: params.username })
