@@ -4,6 +4,7 @@ import { connectDB } from '../../../../db/db_config'
 import { getServerSession } from 'next-auth/next'
 import User from '../../../../db/models/user.models'
 import Group from '../../../../db/models/group.models'
+import { credentials } from '@/libs/cloud_credentials';
 
 export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
     try {
@@ -46,7 +47,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
             const unique_id = crypto.randomUUID()
             const file_name = `image_${unique_id}`
             const fileBuffer = Buffer.from(await thumbnail.arrayBuffer())
-            const storage = new Storage();
+            const storage = new Storage({ credentials });
             await storage.bucket(BUCKET_NAME).file(file_name).save(fileBuffer, { contentType: thumbnail.type, resumable: false });
             await storage.bucket(BUCKET_NAME).file(file_name).makePublic();
             url = `${BUCKET_URL}/${file_name}`
