@@ -58,6 +58,10 @@ export async function POST(req: NextRequest, { params }: { params: { username: S
 
     } catch (error) {
         console.error('Error:', error);
-        return NextResponse.json({ error: 'Server error' }, { status: 500 });
+        let errorMessage = 'An unexpected error occurred';
+        if (error instanceof Error) {
+            errorMessage = error.message;
+        }
+        return NextResponse.json({ error: errorMessage }, { status: 500 });
     }
 }
