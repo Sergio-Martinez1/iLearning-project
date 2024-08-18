@@ -1,6 +1,6 @@
 import CollectionsList from "./_components/collections-list";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/libs/auth";
 
 async function ProfilePage({ params }) {
   const session = await getServerSession(authOptions);
