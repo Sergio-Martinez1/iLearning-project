@@ -5,6 +5,7 @@ import { Storage } from "@google-cloud/storage";
 import { getServerSession } from 'next-auth/next'
 import User from '../../../../../db/models/user.models'
 import { NextApiRequest } from 'next';
+import { credentials } from '@/libs/cloud_credentials';
 
 export async function GET(req: NextApiRequest, { params }: { params: { username: String } }) {
     try {
@@ -46,7 +47,7 @@ export async function POST(req: NextRequest, { params }: { params: { username: S
             const unique_id = crypto.randomUUID()
             const file_name = `image_${unique_id}`
             const fileBuffer = Buffer.from(await thumbnail.arrayBuffer())
-            const storage = new Storage();
+            const storage = new Storage({ credentials });
             await storage.bucket(BUCKET_NAME).file(file_name).save(fileBuffer, { contentType: thumbnail.type, resumable: false });
             await storage.bucket(BUCKET_NAME).file(file_name).makePublic();
             url = `${BUCKET_URL}/${file_name}`
