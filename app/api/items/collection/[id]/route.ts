@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { Storage } from "@google-cloud/storage";
 import { connectDB } from '@/db/db_config'
 import { getServerSession } from 'next-auth/next'
 import User from '@/db/models/user.models'
@@ -9,7 +8,7 @@ import Group from "@/db/models/group.models";
 export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
     try {
         await connectDB()
-        const items = await Item.find({ group: params.id }).select('-group -__v')
+        const items = await Item.find({ group: params.id }).select('-group -__v -createdAt -updatedAt')
         return NextResponse.json(items)
     } catch (error) {
         console.error('Error:', error);
@@ -40,7 +39,7 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
 
         const excludedFields = ['name', 'tags']
         let content: { [key: string]: {} } = {
-            user: currentGroup._id,
+            user: currentGroup.user,
             group: params.id,
             name: name,
             tags: tags || []
