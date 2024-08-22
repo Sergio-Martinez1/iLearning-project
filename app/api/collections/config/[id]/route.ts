@@ -29,9 +29,9 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
             return NextResponse.json({ error: 'Field already created, choose another name' }, { status: 400 })
         } else {
             currentGroup.optionalFields.set(name, { name, type });
-            await Item.updateMany({ group: params.id }, { $set: { [name]: { value: "", type: [type] } } })
+            await Item.updateMany({ group: params.id }, { $set: { [name]: { value: "", type: type } } })
             await currentGroup.save()
-            const items = await Item.find({}).select('-group -__v')
+            const items = await Item.find({ group: params.id }).select('-group -__v -createdAt -updatedAt')
             return NextResponse.json({ collection: currentGroup, items: items });
         }
     } catch (error) {
@@ -65,7 +65,7 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
 
         currentGroup.optionalFields.delete(name)
         await Item.updateMany({ group: params.id }, { $unset: { [name]: "" } })
-        const items = await Item.find({}).select('-group -__v')
+        const items = await Item.find({ group: params.id }).select('-group -__v')
 
         await currentGroup.save()
         return NextResponse.json({ collection: currentGroup, items: items });
