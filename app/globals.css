@@ -5,6 +5,7 @@
 :root {
   --bg-color: #f3f3f3;
   --element-color: #ffffff;
+  --element-secondary-color: #dbdbdb;
   --accent-color: #6668f1;
   --hover-color: #5052f2;
   --text-color: #000000;
@@ -13,16 +14,27 @@
   --hover-warning-color: #8c0000;
 }
 
-@media (prefers-color-scheme: dark) {
+[data-theme="dark"] {
+  --bg-color: #0f172a;
+  --element-color: #1d293b;
+  --element-secondary-color: #161f2c;
+  --accent-color: #6668f1;
+  --hover-color: #5052f2;
+  --text-color: #ffffff;
+  --border-color: #ffffff;
+}
+
+/* @media (prefers-color-scheme: dark) {
   :root {
     --bg-color: #0f172a;
     --element-color: #1d293b;
+    --element-secondary-color: #161f2c;
     --accent-color: #6668f1;
     --hover-color: #5052f2;
     --text-color: #ffffff;
     --border-color: #ffffff;
   }
-}
+} */
 
 body {
   background-color: var(--bg-color);
@@ -94,5 +106,50 @@ dialog {
 @keyframes l7 {
   to {
     transform: rotate(0.5turn);
+  }
+}
+
+/* HTML: <div class="loader"></div> */
+.loader_1 {
+  width: 4px;
+  color: var(--text-color);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  box-shadow: 19px -19px 0 0px, 38px -19px 0 0px, 57px -19px 0 0px, 19px 0 0 5px,
+    38px 0 0 5px, 57px 0 0 5px, 19px 19px 0 0px, 38px 19px 0 0px,
+    57px 19px 0 0px;
+  transform: translateX(-38px);
+  animation: l26 2s infinite linear;
+}
+@keyframes l26 {
+  12.5% {
+    box-shadow: 19px -19px 0 0px, 38px -19px 0 0px, 57px -19px 0 5px,
+      19px 0 0 5px, 38px 0 0 0px, 57px 0 0 5px, 19px 19px 0 0px, 38px 19px 0 0px,
+      57px 19px 0 0px;
+  }
+  25% {
+    box-shadow: 19px -19px 0 5px, 38px -19px 0 0px, 57px -19px 0 5px,
+      19px 0 0 0px, 38px 0 0 0px, 57px 0 0 0px, 19px 19px 0 0px, 38px 19px 0 5px,
+      57px 19px 0 0px;
+  }
+  50% {
+    box-shadow: 19px -19px 0 5px, 38px -19px 0 5px, 57px -19px 0 0px,
+      19px 0 0 0px, 38px 0 0 0px, 57px 0 0 0px, 19px 19px 0 0px, 38px 19px 0 0px,
+      57px 19px 0 5px;
+  }
+  62.5% {
+    box-shadow: 19px -19px 0 0px, 38px -19px 0 0px, 57px -19px 0 0px,
+      19px 0 0 5px, 38px 0 0 0px, 57px 0 0 0px, 19px 19px 0 0px, 38px 19px 0 5px,
+      57px 19px 0 5px;
+  }
+  75% {
+    box-shadow: 19px -19px 0 0px, 38px -19px 0 5px, 57px -19px 0 0px,
+      19px 0 0 0px, 38px 0 0 0px, 57px 0 0 5px, 19px 19px 0 0px, 38px 19px 0 0px,
+      57px 19px 0 5px;
+  }
+  87.5% {
+    box-shadow: 19px -19px 0 0px, 38px -19px 0 5px, 57px -19px 0 0px,
+      19px 0 0 0px, 38px 0 0 5px, 57px 0 0 0px, 19px 19px 0 5px, 38px 19px 0 0px,
+      57px 19px 0 0px;
   }
 }
