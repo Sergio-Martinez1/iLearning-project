@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ message: "Email already in use" }, { status: 400 })
         }
         const passwordHash = await bcrypt.hash(data.password, 10)
-        const newUser = new User({ username: data.username, email: data.email, password: passwordHash, role: "user" })
+        const newUser = new User({ username: data.username, email: data.email, password: passwordHash, role: "user", status: false })
         await newUser.save()
         return Response.json({ message: 'User created succesfully' })
     } catch (error) {
