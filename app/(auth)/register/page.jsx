@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
@@ -26,7 +27,7 @@ function RegisterPage() {
       },
     });
     if (res.ok) {
-      router.push("/auth/login");
+      router.push("/login");
     }
   });
 
@@ -105,6 +106,12 @@ function RegisterPage() {
         <button className="w-32 self-center mb-4">
           Signup
         </button>
+        <span className="text-sm flex gap-x-2 self-center">
+          Already have an account?
+          <Link className="text-[var(--accent-color)] hover:underline" href="/login">
+          Log in
+          </Link>
+        </span>
       </form>
     </main>
   );
