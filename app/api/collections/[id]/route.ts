@@ -9,7 +9,7 @@ import { credentials } from '@/libs/cloud_credentials';
 export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
     try {
         await connectDB()
-        const group = await Group.findOne({ _id: params.id })
+        const group = await Group.findOne({ _id: params.id }).populate({ path: 'user', select: '-password -email -reactions' })
         return NextResponse.json(group)
     } catch (error) {
         console.error('Error:', error);
