@@ -4,6 +4,19 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from 'next-auth/next'
 import User from '@/db/models/user.models'
 import Item from '@/db/models/item.model';
+import Tag from '@/db/models/tag.models'
+
+export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
+    try {
+        await connectDB()
+        const currentItem = await Item.findOne({ _id: params.id }).select('-group -__v -createdAt -updatedAt')
+        if (!currentItem) return NextResponse.json({ error: 'Item not found' }, { status: 404 })
+
+        return NextResponse.json(currentItem);
+    } catch (error) {
+        return NextResponse.json({ error: 'Server error' }, { status: 500 })
+    }
+}
 
 export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
     try {
@@ -12,7 +25,8 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
 
         const data = await req.formData()
         const name = data.get('name') as string
-        const tags = data.get('tags')
+        const tags = data.get('tags') as string
+        let tags_converted = JSON.parse(tags)
 
         if (!name) {
             return NextResponse.json({ error: 'Name is required' }, { status: 400 })
@@ -37,11 +51,18 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
             }
         });
 
+        tags_converted.map(async (tag: string) => {
+            const existTag = await Tag.findOne({ name: tag })
+            if (existTag) return
+
+            const newTag = new Tag({ name: tag })
+            await newTag.save()
+        })
+
         currentItem.name = name;
-        currentItem.tags = tags || [];
-        console.log(currentItem)
+        currentItem.tags = tags_converted || [];
         await currentItem.save()
-        const itemOutput = await Item.findOne({ _id: currentItem._id }).select('-group -__v')
+        const itemOutput = await Item.findOne({ _id: currentItem._id }).select('-group -__v -createdAt -updatedAt')
 
         return NextResponse.json(itemOutput);
     } catch (error) {
