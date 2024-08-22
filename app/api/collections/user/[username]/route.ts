@@ -42,7 +42,7 @@ export async function POST(req: NextRequest, { params }: { params: { username: S
         const userFound = await User.findOne({ username: params.username })
         if (!userFound) return NextResponse.json({ error: 'User not found' }, { status: 400 })
 
-        if (thumbnail) {
+        if (thumbnail.size !== 0) {
             const unique_id = crypto.randomUUID()
             const file_name = `image_${unique_id}`
             const fileBuffer = Buffer.from(await thumbnail.arrayBuffer())
