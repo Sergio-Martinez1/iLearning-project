@@ -42,18 +42,18 @@ function SearchBar() {
   }
 
   return (
-    <div className="bg-[var(--bg-color)] flex items-center rounded-2xl gap-x-1 h-full relative">
+    <div className="bg-[var(--bg-color)] flex items-center justify-between rounded-2xl gap-x-1 h-full relative">
       <input
         ref={input}
         type="text"
         placeholder={t("search_placeholder")}
-        className="h-full shadow-none rounded-l-2xl rounded-r-none"
+        className="h-full shadow-none rounded-l-2xl rounded-r-none w-full"
         onKeyDown={search}
       />
       <button
         type="button"
         onClick={searchClick}
-        className="w-10 h-full flex justify-center items-center m-0 p-0 rounded-l-none rounded-r-2xl shadow-none"
+        className="min-w-10 h-full flex justify-center items-center m-0 p-0 rounded-l-none rounded-r-2xl shadow-none"
       >
         <FaSearch></FaSearch>
       </button>
