@@ -4,6 +4,7 @@ import { getServerSession } from 'next-auth/next'
 import User from '@/db/models/user.models'
 import Item from '@/db/models/item.model'
 import Group from "@/db/models/group.models";
+import Tag from '@/db/models/tag.models'
 
 export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
     try {
@@ -23,7 +24,8 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
 
         const data = await req.formData()
         const name = data.get('name')
-        const tags = data.get('tags')
+        const tags = data.get('tags') as string
+        let tags_converted = JSON.parse(tags)
 
         if (!name) {
             return NextResponse.json({ error: 'Name is required' }, { status: 500 })
@@ -37,12 +39,21 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
             if (userSession._id !== currentGroup.user) return NextResponse.json({ error: 'Not allowed' }, { status: 403 })
         }
 
+        tags_converted.map(async (tag: string) => {
+            const existTag = await Tag.findOne({ name: tag })
+            if (existTag) return
+
+            const newTag = new Tag({ name: tag })
+            await newTag.save()
+        })
+
+
         const excludedFields = ['name', 'tags']
         let content: { [key: string]: {} } = {
             user: currentGroup.user,
             group: params.id,
             name: name,
-            tags: tags || []
+            tags: tags_converted || []
         }
         data.forEach((value, key) => {
             if (!excludedFields.includes(key)) {
@@ -52,7 +63,7 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
 
         const item = new Item(content)
         await item.save()
-        const itemOutput = await Item.findOne({_id: item._id}).select('-group -__v')
+        const itemOutput = await Item.findOne({ _id: item._id }).select('-group -__v -createdAt -updatedAt')
 
         return NextResponse.json(itemOutput)
     } catch (error) {

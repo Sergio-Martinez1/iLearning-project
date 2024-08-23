@@ -8,6 +8,7 @@ import { IoWarningOutline } from "react-icons/io5";
 import { MdOutlineImageNotSupported } from "react-icons/md";
 import { CiSettings } from "react-icons/ci";
 import { useTranslation } from "react-i18next";
+import TagsInput from "./tagsInput";
 
 function CollectionDetail({ id, session }) {
   const [collection, setCollection] = useState(null);
@@ -212,11 +213,11 @@ function CollectionDetail({ id, session }) {
               </label>
               <input className="w-full" type="text" name="name" id="name" />
             </span>
-            <span>
-              <label htmlFor="name" className="mb-1">
+            <span className="flex flex-col w-full">
+              <label htmlFor="tags" className="mb-1">
                 {t("new_item_dialog_field_2")}:
               </label>
-              <input className="w-full" type="text" name="tags" id="tags" />
+              <TagsInput itemTags={[]}></TagsInput>
             </span>
             {Object.keys(collection.optionalFields).map((field, index) => (
               <span key={index} className="flex flex-col w-full">

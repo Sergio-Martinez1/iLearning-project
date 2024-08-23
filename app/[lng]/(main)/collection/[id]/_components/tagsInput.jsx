@@ -10,6 +10,10 @@ function TagsInputs({ itemTags }) {
   const inputOutput = useRef(null);
 
   useEffect(() => {
+    setSelectedTags(itemTags);
+  }, [itemTags]);
+
+  useEffect(() => {
     inputOutput.current.value = JSON.stringify(selectedTags);
   }, [selectedTags]);
 
