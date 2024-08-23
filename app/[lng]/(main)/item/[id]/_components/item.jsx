@@ -1,19 +1,16 @@
 "use client";
 import { useEffect, useState } from "react";
-import Comment from "./comment";
 import { FaHeart } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import { useSession } from "next-auth/react";
+import Comments from "./comments";
 
-function ItemDetails({ id, session }) {
+function ItemDetails({ id }) {
   const { data } = useSession();
   const baseURL = process.env.NEXTAUTH_URL || "";
   const [item, setItem] = useState(null);
-  const [comments, setComments] = useState(null);
-  const [loading, setLoading] = useState(null);
-  const [error, setError] = useState(null);
   const [isLiked, setIsLiked] = useState(false);
   const [reactionsCount, setReactionsCount] = useState(0);
   const [loadingMain, setLoadingMain] = useState(true);
@@ -41,52 +38,10 @@ function ItemDetails({ id, session }) {
       } else {
         console.log(resItem.statusText);
       }
-      const resCo = await fetch(`${baseURL}/api/comments/item/${id}`);
-      if (resCo.ok) {
-        const data = await resCo.json();
-        setComments(data);
-      } else {
-        console.log(resCo.statusText);
-      }
       setLoadingMain(false);
     }
     fetchData();
   }, []);
-
-  async function createComment(event) {
-    const form = event.currentTarget;
-    event.preventDefault();
-    if (!data) {
-      router.push("/login");
-      return;
-    }
-    setLoading(true);
-    try {
-      const formData = new FormData(form);
-      const res = await fetch(`${baseURL}/api/comments/item/${id}`, {
-        method: "POST",
-        body: formData,
-      });
-      if (res.ok) {
-        const data = await res.json();
-        form.reset();
-        setComments((prevComments) => [...prevComments, data]);
-        setError(null);
-      } else {
-        const data = await res.json();
-        setError(data.error);
-      }
-    } catch (error) {
-      setError(error.message);
-    }
-    setLoading(false);
-  }
-
-  async function deleteComment(id) {
-    setComments((prevComments) => {
-      return prevComments.filter((comment) => comment._id !== id);
-    });
-  }
 
   async function addReaction() {
     try {
@@ -206,47 +161,7 @@ function ItemDetails({ id, session }) {
         )}
       </div>
       <div className="bg-[var(--element-color)] p-4 rounded-2xl flex flex-col mb-4">
-        <span className="self-center w-fit font-bold text-xl mb-4 pb-1 border border-[var(--border-color)] rounded-2xl px-2 py-1">
-          {t("comment_title")}
-        </span>
-        <form
-          onSubmit={createComment}
-          className="flex flex-col gap-x-4 md:px-8 w-full"
-        >
-          <div className="flex w-full items-center mb-4 gap-x-2 md:gap-x-4">
-            <textarea
-              rows={1}
-              name="content"
-              id="content"
-              placeholder={t("create_placeholder")}
-              className="grow"
-            ></textarea>
-            <button
-              className="disabled:opacity-40 flex justify-center"
-              disabled={loading}
-            >
-              {loading ? <div className="loader"></div> : t("send_button")}
-            </button>
-          </div>
-          <span className="mx-10 text-red-500 text-sm text-center">
-            {error}
-          </span>
-        </form>
-        {comments && (
-          <div className="h-full overflow-y-auto flex flex-col gap-y-4">
-            {comments.map((comment, index) => (
-              <div key={index} className="w-full">
-                <Comment
-                  id={comment._id}
-                  userId={comment.user}
-                  onDelete={deleteComment}
-                  comment={comment}
-                  session={data}
-                ></Comment>
-              </div>
-            ))}
-          </div>
-        )}
+        <Comments session={data} id={id}></Comments>
       </div>
     </section>
   );
