@@ -54,11 +54,11 @@ function LatestItems() {
 
   if (loading) {
     return (
-      <section className="bg-[var(--element-color)] rounded-2xl p-4 relative flex flex-col">
+      <section className="bg-[var(--element-color)] rounded-2xl p-4 relative flex flex-col min-h-40 md:w-full md:h-full">
         <span className="text-2xl font-bold flex mb-2 bg-[var(--element-color)]">
           {t("lastest_items_title")}
         </span>
-        <div className="flex justify-center items-center h-full w-full rounded-2xl">
+        <div className="flex justify-center items-center w-full h-20 md:h-full rounded-2xl">
           <div className="loader_1"></div>
         </div>
       </section>
