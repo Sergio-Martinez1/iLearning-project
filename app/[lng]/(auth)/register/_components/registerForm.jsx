@@ -14,11 +14,14 @@ function RegisterForm() {
   const { t } = useTranslation();
   const router = useRouter();
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(null);
+
   const onSubmit = handleSubmit(async (data) => {
     if (data.password !== data.confirmPassword) {
       return alert("Passwords do not match");
     }
 
+    setLoading(true);
     const res = await fetch("/api/auth/register", {
       method: "POST",
       body: JSON.stringify({
@@ -32,10 +35,11 @@ function RegisterForm() {
     });
     if (res.ok) {
       router.push("/login");
-    }else {
-      const error = await res.json()
+    } else {
+      const error = await res.json();
       setError(error.error);
     }
+    setLoading(false);
   });
 
   const username_error = t("username_error");
@@ -119,7 +123,9 @@ function RegisterForm() {
           </span>
         )}
       </div>
-      <button className="w-32 self-center mb-4">{t("signup_button")}</button>
+      <button className="w-32 self-center mb-4 flex justify-center">
+        {loading ? <div className="loader"></div> : t("signup_button")}
+      </button>
       <span className="text-sm flex gap-x-2 self-center">
         {t("note")}
         <Link

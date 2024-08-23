@@ -14,9 +14,11 @@ function LoginForm({ errorMessage }) {
   } = useForm();
   const router = useRouter();
   const [error, setError] = useState(errorMessage);
+  const [loading, setLoading] = useState(null);
   const { t } = useTranslation();
 
   const onSubmit = handleSubmit(async (data) => {
+    setLoading(true);
     const res = await signIn("credentials", {
       email: data.email,
       password: data.password,
@@ -28,6 +30,7 @@ function LoginForm({ errorMessage }) {
     } else {
       router.refresh();
     }
+    setLoading(false);
   });
 
   const email_error = t("email_error");
@@ -76,8 +79,8 @@ function LoginForm({ errorMessage }) {
           </span>
         )}
       </div>
-      <button className="w-32 rounded-2xl px-4 py-2 self-center mb-6 shadow-[0_1px_2px_1px_rgba(0,0,0,0.15)]">
-        {t("login_button")}
+      <button className="w-32 rounded-2xl px-4 py-2 self-center mb-6 shadow-[0_1px_2px_1px_rgba(0,0,0,0.15)] flex justify-center">
+        {loading ? <div className="loader"></div> : t("login_button")}
       </button>
       <span className="text-sm flex gap-x-2">
         {t("note")}
