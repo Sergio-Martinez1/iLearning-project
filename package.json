@@ -11,6 +11,7 @@
   "dependencies": {
     "@google-cloud/storage": "^7.12.1",
     "accept-language": "^3.0.20",
+    "adorable-word-cloud": "^0.1.2",
     "bcryptjs": "^2.4.3",
     "cookie": "^0.6.0",
     "i18next": "^23.14.0",

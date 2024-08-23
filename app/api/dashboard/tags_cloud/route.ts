@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
             {
                 $group: {
                     _id: "$tags",
-                    tagCount: {
+                    value: {
                         $sum: 1
                     }
                 }
@@ -21,6 +21,13 @@ export async function GET(request: NextRequest) {
                 $sort: { itemCount: -1 }
             },
             { $limit: 30 },
+            {
+                $project: {
+                    _id: 0,
+                    text: "$_id",
+                    value: 1
+                }
+            }
         ])
         return NextResponse.json(result)
     } catch (error) {

@@ -1,12 +1,29 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { AdorableWordCloud } from "adorable-word-cloud";
+import { useRouter } from "next/navigation";
 
 function TagsCloud() {
   const baseURL = process.env.NEXTAUTH_URL || "";
   const [tags, setTags] = useState(null);
   const [loading, setLoading] = useState(true);
   const { t } = useTranslation();
+  const router = useRouter();
+
+  const options = {
+    colors: ["#B0E650", "#ff7f0e", "#4DD5CB", "#568CEC", "#CE7DFF", "#4FD87D"],
+    fontFamily: "JalnanGothic",
+    fontSizeRange: [20, 80],
+    rotationDivision: 0,
+    enableRandomization: true,
+  };
+
+  const callbacks = {
+    onWordClick: (word) => {
+      router.push(`/search/${word.text}`);
+    },
+  };
 
   useEffect(() => {
     async function getData() {
@@ -20,12 +37,6 @@ function TagsCloud() {
     }
     getData();
   }, []);
-
-  function calculateSize() {
-    const sizes = [20, 40, 25, 30, 35, 10, 18, 22, 45];
-    const random = Math.floor(Math.random() * sizes.length);
-    return `text-[${sizes[random]}px]`;
-  }
 
   if (loading) {
     return (
@@ -41,22 +52,19 @@ function TagsCloud() {
   }
 
   return (
-    <section className="bg-[var(--element-color)] rounded-2xl p-4 relative flex flex-col">
-      <span className="text-2xl font-bold flex mb-2 bg-[var(--element-color)]">
+    <section className="bg-[var(--element-color)] rounded-2xl p-4 flex flex-col h-full overflow-hidden">
+      <span className="text-2xl font-bold flex bg-[var(--element-color)] w-full h-fit">
         {t("tags_cloud_title")}
       </span>
-      <div className="flex flex-wrap gap-x-1 h-fit overflow-y-auto rounded-2xl justify-center items-center max-w-80 mx-auto my-auto">
-        {tags &&
-          tags.map((tag, index) => (
-            <a
-              key={index}
-              href={`/search/${tag.name}`}
-              className={`${calculateSize()} w-fit h-fit hover:bg-[var(--accent-color)]`}
-            >
-              {tag.name}
-            </a>
-          ))}
-      </div>
+      {tags && (
+        <div className="h-full w-full grow">
+          <AdorableWordCloud
+            words={tags}
+            options={options}
+            callbacks={callbacks}
+          />
+        </div>
+      )}
     </section>
   );
 }
