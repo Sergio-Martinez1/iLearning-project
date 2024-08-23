@@ -10,6 +10,13 @@ async function ProfilePage({ params }) {
   const session = await getServerSession(authOptions);
   const { t, resources } = await initTranslations(params.lng, i18nNameSpaces);
   const username = params.username;
+  let author = false;
+
+  if (session.role == "admin") {
+    author = true;
+  } else {
+    author = session ? params.username == session.user.name : false;
+  }
 
   return (
     <TranslationsProvider
@@ -25,7 +32,7 @@ async function ProfilePage({ params }) {
         </header>
         <CollectionsList
           user={params.username}
-          author={session ? params.username == session.user.name : false}
+          author={author}
         ></CollectionsList>
       </section>
     </TranslationsProvider>

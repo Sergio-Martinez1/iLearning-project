@@ -30,7 +30,11 @@ function CollectionDetail({ id, session }) {
       if (resCol.ok) {
         const data = await resCol.json();
         setCollection(data);
-        setAuthor(session ? data.user.username == session.user.name : false);
+        if (session.role == "admin") {
+          setAuthor(true);
+        } else {
+          setAuthor(session ? data.user.username == session.user.name : false);
+        }
       } else {
         console.log(resCol.statusText);
       }
@@ -88,7 +92,7 @@ function CollectionDetail({ id, session }) {
   return (
     <section className="flex max-lg:flex-col lg:gap-x-8 max-lg:items-center">
       {collection && (
-        <div className="flex flex-col bg-[var(--element-color)] rounded-2xl p-4 mb-4 max-w-[800px] lg:min-w-[400px] xl:w-[500px] h-fit lg:sticky top-0">
+        <div className="flex flex-col bg-[var(--element-color)] rounded-2xl p-4 mb-4 max-lg:w-full max-w-[600px] lg:min-w-[400px] xl:w-[500px] h-fit lg:sticky top-0">
           <div className="flex flex-wrap items-center gap-x-2 mb-2">
             <span className="font-bold text-2xl w-full mb-2">
               {collection.name}
@@ -261,11 +265,11 @@ function CollectionDetail({ id, session }) {
       )}
 
       <div className="flex flex-col max-lg:items-center w-full">
-        <span className="font-bold text-4xl mb-4 flex w-full h-full">
+        <span className="font-bold text-4xl mb-4 flex w-full h-fit">
           {t("items_title")}:
         </span>
         {items.length > 0 ? (
-          <div className="lg:grow flex gap-x-8 gap-y-8 flex-wrap h-fit w-fit justify-center">
+          <div className="lg:grow flex gap-x-8 gap-y-8 flex-wrap h-full w-full justify-center">
             {items.map((item, index) => {
               return (
                 <Item
