@@ -32,7 +32,10 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
         const name = data.get('name')
         const description = data.get('description')
         const topic = data.get('topic')
-        let url = thumbnail_url
+        let url = null
+
+        if (!name) return NextResponse.json({ error: 'User is required' }, { status: 400 })
+        if (!description) return NextResponse.json({ error: 'Description is required' }, { status: 400 })
 
         await connectDB()
         const userSession = await User.findOne({ username: session.user?.name })
@@ -43,7 +46,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
             if (userSession._id.toString() !== currentGroup.user.toString()) return NextResponse.json({ message: 'Not allowed' }, { status: 403 })
         }
 
-        if (thumbnail) {
+        if (thumbnail && thumbnail.size !== 0) {
             const unique_id = crypto.randomUUID()
             const file_name = `image_${unique_id}`
             const fileBuffer = Buffer.from(await thumbnail.arrayBuffer())

@@ -34,6 +34,9 @@ export async function POST(req: NextRequest, { params }: { params: { username: S
         const topic = data.get('topic')
         let url = null
 
+        if (!name) return NextResponse.json({ error: 'User is required' }, { status: 400 })
+        if (!description) return NextResponse.json({ error: 'Description is required' }, { status: 400 })
+
         await connectDB()
         const userSession = await User.findOne({ username: session.user?.name })
         if (userSession.role !== 'admin') {
@@ -42,7 +45,7 @@ export async function POST(req: NextRequest, { params }: { params: { username: S
         const userFound = await User.findOne({ username: params.username })
         if (!userFound) return NextResponse.json({ error: 'User not found' }, { status: 400 })
 
-        if (thumbnail.size !== 0) {
+        if (thumbnail && thumbnail.size !== 0) {
             const unique_id = crypto.randomUUID()
             const file_name = `image_${unique_id}`
             const fileBuffer = Buffer.from(await thumbnail.arrayBuffer())
