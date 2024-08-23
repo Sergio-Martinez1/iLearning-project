@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
@@ -12,6 +13,7 @@ function RegisterForm() {
   } = useForm();
   const { t } = useTranslation();
   const router = useRouter();
+  const [error, setError] = useState("");
   const onSubmit = handleSubmit(async (data) => {
     if (data.password !== data.confirmPassword) {
       return alert("Passwords do not match");
@@ -30,6 +32,9 @@ function RegisterForm() {
     });
     if (res.ok) {
       router.push("/login");
+    }else {
+      const error = await res.json()
+      setError(error.error);
     }
   });
 
@@ -46,6 +51,11 @@ function RegisterForm() {
       <span className="self-center text-3xl font-bold mt-4 mb-8">
         {t("title")}
       </span>
+      {error && (
+        <span className="bg-red-500 text-white text-sm rounded-2xl flex justify-center items-center mb-4 px-2 py-1">
+          {error}
+        </span>
+      )}
       <div className="mb-4 flex flex-col">
         <input
           type="text"
