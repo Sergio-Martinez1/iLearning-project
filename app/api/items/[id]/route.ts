@@ -40,7 +40,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
         }
         if (!currentItem) return NextResponse.json({ error: 'Item not found' }, { status: 404 })
         if (userSession.role !== 'admin') {
-            if (userSession._id !== currentItem.user) return NextResponse.json({ error: 'Not allowed' }, { status: 403 })
+            if (userSession._id.toString() !== currentItem.user.toString()) return NextResponse.json({ error: 'Not allowed' }, { status: 403 })
         }
 
         const excludedFields = ['name', 'tags']
@@ -81,7 +81,7 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
 
         if (!currentItem) return NextResponse.json({ error: 'Item not found' }, { status: 404 })
         if (userSession.role !== 'admin') {
-            if (userSession._id !== currentItem.user) return NextResponse.json({ error: 'Not allowed' }, { status: 403 })
+            if (userSession._id.toString() !== currentItem.user.toString()) return NextResponse.json({ error: 'Not allowed' }, { status: 403 })
         }
 
         await currentItem.deleteOne()

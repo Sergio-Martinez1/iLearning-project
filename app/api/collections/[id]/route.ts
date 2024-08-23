@@ -40,7 +40,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
 
         if (!currentGroup) return NextResponse.json({ message: 'Collection not found' }, { status: 400 })
         if (userSession.role !== 'admin') {
-            if (userSession._id !== currentGroup.user) return NextResponse.json({ message: 'Not allowed' }, { status: 403 })
+            if (userSession._id.toString() !== currentGroup.user.toString()) return NextResponse.json({ message: 'Not allowed' }, { status: 403 })
         }
 
         if (thumbnail) {
@@ -77,7 +77,7 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
 
         if (!currentGroup) return NextResponse.json({ message: 'Collection not found' }, { status: 400 })
         if (userSession.role !== 'admin') {
-            if (userSession._id !== currentGroup.user) return NextResponse.json({ message: 'Not allowed' }, { status: 403 })
+            if (userSession._id.toString() !== currentGroup.user.toString()) return NextResponse.json({ message: 'Not allowed' }, { status: 403 })
         }
 
         await currentGroup.deleteOne()

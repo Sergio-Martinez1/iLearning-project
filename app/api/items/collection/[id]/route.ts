@@ -36,7 +36,7 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
 
         if (!currentGroup) return NextResponse.json({ error: 'Collection not found' }, { status: 400 })
         if (userSession.role !== 'admin') {
-            if (userSession._id !== currentGroup.user) return NextResponse.json({ error: 'Not allowed' }, { status: 403 })
+            if (userSession._id.toString() !== currentGroup.user.toString()) return NextResponse.json({ error: 'Not allowed' }, { status: 403 })
         }
 
         tags_converted.map(async (tag: string) => {

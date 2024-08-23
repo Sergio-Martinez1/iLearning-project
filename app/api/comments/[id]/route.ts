@@ -27,7 +27,7 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
 
         if (!currentComment) return NextResponse.json({ error: 'Comment not found' }, { status: 404 })
         if (userSession.role !== 'admin') {
-            if (userSession._id !== currentComment.user) return NextResponse.json({ error: 'Not allowed' }, { status: 403 })
+            if (userSession._id.toString() !== currentComment.user.toString()) return NextResponse.json({ error: 'Not allowed' }, { status: 403 })
         }
 
         await currentComment.deleteOne()

@@ -14,7 +14,7 @@ export async function POST(req: NextRequest, { params }: { params: { id: Number 
         const currentItem = await Item.findOne({ _id: params.id })
         if (!currentItem) return NextResponse.json({ error: 'Item not found' }, { status: 404 })
         if (userSession.role !== 'admin') {
-            if (userSession._id !== currentItem.user) return NextResponse.json({ error: 'Not allowed' }, { status: 403 })
+            if (userSession._id.toString() !== currentItem.user.toString()) return NextResponse.json({ error: 'Not allowed' }, { status: 403 })
         }
 
         let reactionExist = userSession.reactions.filter((reactionId: Number) => reactionId === params.id)
@@ -42,7 +42,7 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: Numbe
         const currentItem = await Item.findOne({ _id: params.id })
         if (!currentItem) return NextResponse.json({ error: 'Item not found' }, { status: 404 })
         if (userSession.role !== 'admin') {
-            if (userSession._id !== currentItem.user) return NextResponse.json({ error: 'Not allowed' }, { status: 403 })
+            if (userSession._id.toString() !== currentItem.user.toString()) return NextResponse.json({ error: 'Not allowed' }, { status: 403 })
         }
 
         let reactionExist = userSession.reactions.filter((reactionId: Number) => reactionId === params.id)
