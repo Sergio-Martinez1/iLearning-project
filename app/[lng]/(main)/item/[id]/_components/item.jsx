@@ -56,7 +56,7 @@ function ItemDetails({ id, session }) {
   async function createComment(event) {
     const form = event.currentTarget;
     event.preventDefault();
-    if (!session) {
+    if (!data) {
       router.push("/login");
       return;
     }
