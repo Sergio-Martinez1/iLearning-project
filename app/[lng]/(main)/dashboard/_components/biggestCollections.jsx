@@ -63,13 +63,13 @@ function LatestItems() {
                   </div>
                 </div>
                 <span className="mb-2">{collection.group.description}</span>
-                {collection.thumbnail_url ? (
+                {collection.group.thumbnail_url ? (
                   <img
-                    className="rounded-2xl object-contain"
+                    className="rounded-2xl object-contain h-56"
                     src={collection.group.thumbnail_url}
                   />
                 ) : (
-                  <div className="flex flex-col mt-auto justify-center items-center border border-[var(--border-color)] rounded-2xl">
+                  <div className="flex flex-col mt-auto justify-center items-center border border-[var(--border-color)] rounded-2xl h-56">
                     <MdOutlineImageNotSupported size={40} />
                     <span className="mt-2">{t("biggest_collections_no_image")}</span>
                   </div>
