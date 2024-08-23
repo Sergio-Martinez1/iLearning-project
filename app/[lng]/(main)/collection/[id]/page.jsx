@@ -15,7 +15,7 @@ async function CollectionPage({ params }) {
       locale={params.lng}
       namespaces={i18nNameSpaces}
     >
-      <main className="p-4 relative h-screen flex flex-col grow overflow-y-auto ">
+      <main className="px-8 py-4 lg:p-4 relative h-screen flex flex-col grow overflow-y-auto">
         <CollectionDetail id={params.id} session={session}></CollectionDetail>
       </main>
     </TranslationsProvider>

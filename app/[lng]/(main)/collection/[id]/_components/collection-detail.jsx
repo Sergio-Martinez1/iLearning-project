@@ -74,7 +74,7 @@ function CollectionDetail({ id, session }) {
 
   if (loading) {
     return (
-      <section className="md:grid md:grid-cols-[1fr_2fr] md:gap-x-8 justify-center items-center w-full h-full">
+      <section className="lg:grid lg:grid-cols-[1fr_2fr] lg:gap-x-8 justify-center items-center w-full h-full">
         <section className="px-4 w-full flex items-center justify-center h-full">
           <div className="loader_1"></div>
         </section>
@@ -86,9 +86,9 @@ function CollectionDetail({ id, session }) {
   }
 
   return (
-    <section className="md:flex md:gap-x-8">
+    <section className="flex max-lg:flex-col lg:gap-x-8 max-lg:items-center">
       {collection && (
-        <div className="flex flex-col bg-[var(--element-color)] rounded-2xl p-4 mb-4 md:min-w-[400px] xl:w-[500px] h-fit md:sticky top-0">
+        <div className="flex flex-col bg-[var(--element-color)] rounded-2xl p-4 mb-4 max-w-[800px] lg:min-w-[400px] xl:w-[500px] h-fit lg:sticky top-0">
           <div className="flex flex-wrap items-center gap-x-2 mb-2">
             <span className="font-bold text-2xl w-full mb-2">
               {collection.name}
@@ -260,20 +260,29 @@ function CollectionDetail({ id, session }) {
         </div>
       )}
 
-      {items && (
-        <div className="md:grow md:flex md:gap-x-4 md:flex-wrap h-fit">
-          {items.map((item, index) => {
-            return (
-              <Item
-                item={item}
-                key={index}
-                onDelete={deleteItem}
-                author={author}
-              ></Item>
-            );
-          })}
-        </div>
-      )}
+      <div className="flex flex-col max-lg:items-center w-full">
+        <span className="font-bold text-4xl mb-4 flex w-full h-full">
+          {t("items_title")}:
+        </span>
+        {items.length > 0 ? (
+          <div className="lg:grow flex gap-x-8 gap-y-8 flex-wrap h-fit w-fit justify-center">
+            {items.map((item, index) => {
+              return (
+                <Item
+                  item={item}
+                  key={index}
+                  onDelete={deleteItem}
+                  author={author}
+                ></Item>
+              );
+            })}
+          </div>
+        ) : (
+          <span className="flex w-fit h-full items-center mx-auto self-center opacity-50">
+            {t("no_content")}
+          </span>
+        )}
+      </div>
     </section>
   );
 }

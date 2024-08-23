@@ -70,7 +70,7 @@ function Item({ item, onDelete, author }) {
   }
 
   return (
-    <div className="bg-[var(--element-color)] mb-4 rounded-2xl p-4 md:w-[250px] flex flex-col">
+    <div className="bg-[var(--element-color)] rounded-2xl p-4 w-[300px] md:w-[250px] flex flex-col">
       <div className="flex items-center justify-between mb-2">
         <span className="font-bold">{data.name}</span>
         <div className="flex gap-x-4">
