@@ -12,7 +12,7 @@ async function ProfilePage({ params }) {
   const username = params.username;
   let author = false;
 
-  if (session.role == "admin") {
+  if (session && session.role == "admin") {
     author = true;
   } else {
     author = session ? params.username == session.user.name : false;
