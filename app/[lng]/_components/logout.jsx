@@ -5,15 +5,16 @@ import { MdLogout } from "react-icons/md";
 
 function LogOutButton() {
   const router = useRouter();
+
   return (
     <button
-    className="px-1 pl-1.5 py-1 flex items-center justify-center w-fit h-fit"
+      className="p-0 pl-0.5 flex items-center justify-center w-8 h-8 md:w-10 md:h-10 rounded-full"
       onClick={() => {
         signOut();
-        router.push('/')
+        router.refresh("/");
       }}
     >
-      <MdLogout size={20}></MdLogout>
+      <MdLogout size={25}></MdLogout>
     </button>
   );
 }
