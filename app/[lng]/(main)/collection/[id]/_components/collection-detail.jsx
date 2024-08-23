@@ -30,7 +30,7 @@ function CollectionDetail({ id, session }) {
       if (resCol.ok) {
         const data = await resCol.json();
         setCollection(data);
-        if (session.role == "admin") {
+        if (session && session.role == "admin") {
           setAuthor(true);
         } else {
           setAuthor(session ? data.user.username == session.user.name : false);
