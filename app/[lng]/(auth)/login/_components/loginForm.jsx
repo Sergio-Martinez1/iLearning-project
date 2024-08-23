@@ -14,7 +14,7 @@ function LoginForm({ errorMessage }) {
   } = useForm();
   const router = useRouter();
   const [error, setError] = useState(errorMessage);
-  const [loading, setLoading] = useState(null);
+  const [loading, setLoading] = useState(false);
   const { t } = useTranslation();
 
   const onSubmit = handleSubmit(async (data) => {
@@ -79,7 +79,10 @@ function LoginForm({ errorMessage }) {
           </span>
         )}
       </div>
-      <button className="w-32 rounded-2xl px-4 py-2 self-center mb-6 shadow-[0_1px_2px_1px_rgba(0,0,0,0.15)] flex justify-center">
+      <button
+        className="w-32 rounded-2xl px-4 py-2 self-center mb-6 shadow-[0_1px_2px_1px_rgba(0,0,0,0.15)] flex justify-center disabled:opacity-40"
+        disabled={loading}
+      >
         {loading ? <div className="loader"></div> : t("login_button")}
       </button>
       <span className="text-sm flex gap-x-2">

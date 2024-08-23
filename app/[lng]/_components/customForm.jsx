@@ -47,7 +47,10 @@ const CustomForm = forwardRef(function CustomForm(props, ref) {
         <div className="flex gap-x-2 mb-4 px-6 flex-wrap gap-y-2 justify-center">
           {children}
         </div>
-        <button className="disabled:opacity-50 flex justify-center mx-6 mb-2">
+        <button
+          className="disabled:opacity-40 flex justify-center mx-6 mb-2"
+          disabled={loading}
+        >
           {loading ? <div className="loader"></div> : buttonTitle}
         </button>
         <span className="mx-10 text-red-500 text-sm text-center">{error}</span>

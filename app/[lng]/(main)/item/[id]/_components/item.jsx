@@ -221,7 +221,10 @@ function ItemDetails({ id, session }) {
               placeholder={t("create_placeholder")}
               className="grow"
             ></textarea>
-            <button className="disabled:opacity-50 flex justify-center">
+            <button
+              className="disabled:opacity-40 flex justify-center"
+              disabled={loading}
+            >
               {loading ? <div className="loader"></div> : t("send_button")}
             </button>
           </div>

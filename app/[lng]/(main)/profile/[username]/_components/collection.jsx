@@ -141,8 +141,9 @@ function Collection({
               {t("delete_cancel_button")}
             </button>
             <button
-              className="bg-[var(--warning-color)] hover:bg-[var(--hover-warning-color)] active:bg-[var(--warning-color)] flex justify-center"
+              className="bg-[var(--warning-color)] hover:bg-[var(--hover-warning-color)] active:bg-[var(--warning-color)] flex justify-center disabled:opacity-40"
               onClick={deleteCollection}
+              disabled={loading}
             >
               {loading ? <div className="loader"></div> : t("delete_confirm")}
             </button>
@@ -178,7 +179,10 @@ function Collection({
                   setNameValue(event.target.value);
                 }}
                 {...register("name", {
-                  required: { value: true, message: t("edit_dialog_error_label_1") },
+                  required: {
+                    value: true,
+                    message: t("edit_dialog_error_label_1"),
+                  },
                 })}
               />
               {errors.name && (
@@ -200,7 +204,10 @@ function Collection({
                   setDescriptionValue(event.target.value);
                 }}
                 {...register("description", {
-                  required: { value: true, message: t("edit_dialog_error_label_2") },
+                  required: {
+                    value: true,
+                    message: t("edit_dialog_error_label_2"),
+                  },
                 })}
               ></textarea>
               {errors.description && (
@@ -221,13 +228,24 @@ function Collection({
                   setTopicValue(event.target.value);
                 }}
                 {...register("topic", {
-                  required: { value: true, message: t("edit_dialog_error_label_3") },
+                  required: {
+                    value: true,
+                    message: t("edit_dialog_error_label_3"),
+                  },
                 })}
               >
-                <option value="Books">{t("edit_dialog_label_3_option_1")}</option>
-                <option value="Signs">{t("edit_dialog_label_3_option_2")}</option>
-                <option value="Silverware">{t("edit_dialog_label_3_option_3")}</option>
-                <option value="Other">{t("edit_dialog_label_3_option_4")}</option>
+                <option value="Books">
+                  {t("edit_dialog_label_3_option_1")}
+                </option>
+                <option value="Signs">
+                  {t("edit_dialog_label_3_option_2")}
+                </option>
+                <option value="Silverware">
+                  {t("edit_dialog_label_3_option_3")}
+                </option>
+                <option value="Other">
+                  {t("edit_dialog_label_3_option_4")}
+                </option>
               </select>
               {errors.topic && (
                 <span className="text-red-500 text-sm ml-2 mt-1">
@@ -259,9 +277,14 @@ function Collection({
             </div>
             <button
               type="submit"
-              className="mt-7 w-40 self-center flex justify-center"
+              className="mt-7 w-40 self-center flex justify-center disabled:opacity-40"
+              disabled={loading}
             >
-              {loading ? <div className="loader"></div> : t("edit_dialog_submit_button")}
+              {loading ? (
+                <div className="loader"></div>
+              ) : (
+                t("edit_dialog_submit_button")
+              )}
             </button>
           </form>
         </div>

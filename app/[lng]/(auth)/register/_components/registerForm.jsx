@@ -123,7 +123,10 @@ function RegisterForm() {
           </span>
         )}
       </div>
-      <button className="w-32 self-center mb-4 flex justify-center">
+      <button
+        className="w-32 self-center mb-4 flex justify-center disabled:opacity-40"
+        disabled={loading}
+      >
         {loading ? <div className="loader"></div> : t("signup_button")}
       </button>
       <span className="text-sm flex gap-x-2 self-center">

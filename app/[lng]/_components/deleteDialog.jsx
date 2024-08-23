@@ -10,7 +10,10 @@ const DeleteDialog = forwardRef(function DeleteDialog(props, ref) {
   async function onDelete() {
     setLoading(true);
     try {
-      const res = await fetch(url, { method: "DELETE", body: JSON.stringify(body || {}) });
+      const res = await fetch(url, {
+        method: "DELETE",
+        body: JSON.stringify(body || {}),
+      });
       if (res.ok) {
         const data = await res.json();
         onSubmit(data);
@@ -41,8 +44,9 @@ const DeleteDialog = forwardRef(function DeleteDialog(props, ref) {
             {t("common:cancel_button")}
           </button>
           <button
-            className="bg-[var(--warning-color)] hover:bg-[var(--hover-warning-color)] active:bg-[var(--warning-color)] flex justify-center"
+            className="bg-[var(--warning-color)] hover:bg-[var(--hover-warning-color)] active:bg-[var(--warning-color)] flex justify-center disabled:opacity-40"
             onClick={onDelete}
+            disabled={loading}
           >
             {loading ? <div className="loader"></div> : buttonTitle}
           </button>
