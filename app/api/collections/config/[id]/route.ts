@@ -65,7 +65,7 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
 
         currentGroup.optionalFields.delete(name)
         await Item.updateMany({ group: params.id }, { $unset: { [name]: "" } })
-        const items = await Item.find({ group: params.id }).select('-group -__v')
+        const items = await Item.find({ group: params.id }).select('-group -__v -createdAt -updatedAt')
 
         await currentGroup.save()
         return NextResponse.json({ collection: currentGroup, items: items });
