@@ -31,16 +31,8 @@ export async function POST(request: NextRequest, { params }: { params: { id: str
         if (!userSession) return NextResponse.json({ error: 'User in session not found' }, { status: 404 })
         const currentItem = await Item.findOne({ _id: params.id })
         if (!currentItem) return NextResponse.json({ error: 'Item not found' }, { status: 404 })
-        console.log(currentItem.user)
-        const userItem = await User.findOne({ _id: currentItem.user })
-        console.log(userItem)
-        if (!userItem) return NextResponse.json({ error: 'Author of item not found' }, { status: 404 })
 
-        if (userSession.role !== 'admin') {
-            if (userSession.name !== userItem.name) return NextResponse.json({ error: 'Not allowed' }, { status: 403 })
-        }
-
-        const newComment = new Comment({ user: userItem._id, item: currentItem._id, content: content })
+        const newComment = new Comment({ user: userSession._id, item: currentItem._id, content: content })
         await newComment.save()
         const outputComment = await Comment.findOne({ _id: newComment._id }).populate({ path: 'user', select: '-password -email -reactions' })
         return NextResponse.json(outputComment);
