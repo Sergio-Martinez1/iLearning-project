@@ -172,15 +172,22 @@ function ItemDetails({ id, session }) {
                   return;
                 } else if (field == "tags") {
                   return (
-                    <div
+                    <span
                       key={index}
-                      className="flex gap-x-1 pb-1 border-b border-[var(--border-color)] mb-1"
+                      className="flex flex-wrap gap-y-1 gap-x-1 pb-2 border-b border-[var(--border-color)]"
                     >
-                      <span className="flex flex-col">
-                        {t("item_tags_label")}:
-                      </span>
-                      <span>{item[field]}</span>
-                    </div>
+                      <span>{t("item_tags_label")}:</span>
+                      {item[field] &&
+                        item[field].map((tag, index) => (
+                          <span
+                            key={index}
+                            id={tag}
+                            className={`text-[var(--text-color)] text-sm flex border-[var(--border-color)] border rounded-2xl items-center w-fit h-fit py-0.5 px-2 gap-x-1 mr-1 transition-colors`}
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                    </span>
                   );
                 } else {
                   return (
@@ -202,7 +209,10 @@ function ItemDetails({ id, session }) {
         <span className="self-center w-fit font-bold text-xl mb-4 pb-1 border border-[var(--border-color)] rounded-2xl px-2 py-1">
           {t("comment_title")}
         </span>
-        <form onSubmit={createComment} className="flex flex-col gap-x-4 md:px-8 w-full">
+        <form
+          onSubmit={createComment}
+          className="flex flex-col gap-x-4 md:px-8 w-full"
+        >
           <div className="flex w-full items-center mb-4 gap-x-2 md:gap-x-4">
             <textarea
               rows={1}
