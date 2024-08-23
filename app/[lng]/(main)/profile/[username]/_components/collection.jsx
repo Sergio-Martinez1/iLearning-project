@@ -152,7 +152,7 @@ function Collection({
       </dialog>
       <dialog
         ref={editDialog}
-        className="bg-[var(--element-color)] w-[320px] md:w-[500px] h-fit border-[var(--border-color)] border rounded-2xl z-10 p-6"
+        className="bg-[var(--element-color)] w-[320px] md:w-[500px] border-[var(--border-color)] border rounded-2xl z-10 p-6"
       >
         <div className="flex flex-col w-full h-full">
           <h1 className="text-2xl font-bold mb-4 w-full flex justify-between">
