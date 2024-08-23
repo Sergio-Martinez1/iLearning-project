@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
         await connectDB()
         const userFound = await User.findOne({ email })
         if (userFound) {
-            return NextResponse.json({ message: "Email already in use" }, { status: 400 })
+            return NextResponse.json({ error: "Email already in use" }, { status: 400 })
         }
         const passwordHash = await bcrypt.hash(data.password, 10)
         const newUser = new User({ username: data.username, email: data.email, password: passwordHash, role: "user", status: false })
@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
         return Response.json({ message: 'User created succesfully' })
     } catch (error) {
         console.log(error)
-        return new Response(JSON.stringify({ message: 'Error creating user' }), { status: 500 });
+        return new Response(JSON.stringify({ error: 'Error creating user' }), { status: 500 });
     }
 
 }
