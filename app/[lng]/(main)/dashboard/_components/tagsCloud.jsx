@@ -52,7 +52,7 @@ function TagsCloud() {
   }
 
   return (
-    <section className="bg-[var(--element-color)] rounded-2xl p-4 flex flex-col h-full overflow-hidden">
+    <section className="bg-[var(--element-color)] rounded-2xl p-4 flex flex-col h-full overflow-hidden min-h-80">
       <span className="text-2xl font-bold flex bg-[var(--element-color)] w-full h-fit">
         {t("tags_cloud_title")}
       </span>
