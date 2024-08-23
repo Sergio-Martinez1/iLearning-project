@@ -4,7 +4,7 @@ import { getServerSession } from 'next-auth/next'
 import User from '@/db/models/user.models'
 import Item from '@/db/models/item.model'
 
-export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
+export async function POST(req: NextRequest, { params }: { params: { id: Number } }) {
     try {
         const session = await getServerSession()
         if (!session) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 })
@@ -16,6 +16,9 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
         if (userSession.role !== 'admin') {
             if (userSession._id !== currentItem.user) return NextResponse.json({ error: 'Not allowed' }, { status: 403 })
         }
+
+        let reactionExist = userSession.reactions.filter((reactionId: Number) => reactionId === params.id)
+        if (reactionExist.length > 0) return NextResponse.json({ error: 'Reaction already exist' }, { status: 400 })
 
         userSession.reactions.push(params.id)
         currentItem.reactions += 1
@@ -41,6 +44,9 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: Numbe
         if (userSession.role !== 'admin') {
             if (userSession._id !== currentItem.user) return NextResponse.json({ error: 'Not allowed' }, { status: 403 })
         }
+
+        let reactionExist = userSession.reactions.filter((reactionId: Number) => reactionId === params.id)
+        if (reactionExist.length == 0) return NextResponse.json({ error: 'Reaction does not exist' }, { status: 400 })
 
         userSession.reactions = userSession.reactions.filter((reactionId: Number) => reactionId !== params.id)
         currentItem.reactions -= 1
