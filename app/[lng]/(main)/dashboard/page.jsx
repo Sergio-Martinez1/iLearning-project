@@ -3,6 +3,7 @@ import BiggestCollections from "./_components/biggestCollections";
 import TagsCloud from "./_components/tagsCloud";
 import initTranslations from "../../i18n";
 import TranslationsProvider from "../../_components/translationsProvider";
+export const fetchCache = 'force-no-store'
 
 const i18nNameSpaces = ["dashboard", "common"];
 
