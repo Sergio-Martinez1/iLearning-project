@@ -76,7 +76,7 @@ function Collection({
     if (res.ok) {
       const newCollection = await res.json();
       onEditCollection(newCollection);
-      editDialog.current.close("succes");
+      editDialog.current.close("success");
     }
     setLoading(false);
   });
@@ -163,6 +163,7 @@ function Collection({
               {t("edit_dialog_title")}
             </span>
             <button
+              type="button"
               className="flex justify-self-end w-fit h-fit text-[12px] py-1 px-4"
               onClick={closeEditDialog}
             >
