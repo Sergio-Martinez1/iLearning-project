@@ -11,7 +11,10 @@ function LatestItems() {
   useEffect(() => {
     async function getData() {
       setLoading(true);
-      const res = await fetch(`${baseURL}/api/dashboard/latest_items`);
+      const res = await fetch(`${baseURL}/api/dashboard/latest_items`, {
+        method: "GET",
+        cache: "no-store",
+      });
       if (res.ok) {
         const data = await res.json();
         setItems(data);
