@@ -32,7 +32,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
         const name = data.get('name')
         const description = data.get('description')
         const topic = data.get('topic')
-        let url = null
+        let url = thumbnail_url ? thumbnail_url : null
 
         if (!name) return NextResponse.json({ error: 'User is required' }, { status: 400 })
         if (!description) return NextResponse.json({ error: 'Description is required' }, { status: 400 })
