@@ -1,7 +1,7 @@
 import { forwardRef, useState } from "react";
 
 const CustomForm = forwardRef(function CustomForm(props, ref) {
-  const { title, buttonTitle, children, url, onSubmit, method } = props;
+  const { title, buttonTitle, children, url, onSubmit, method, onClose } = props;
   const [loading, setLoading] = useState(null);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [error, setError] = useState(null);
@@ -37,6 +37,7 @@ const CustomForm = forwardRef(function CustomForm(props, ref) {
             className="flex justify-self-end w-fit h-fit text-[12px] py-1 px-4"
             type="button"
             onClick={() => {
+              onClose()
               setError(null);
               ref.current.close();
             }}
