@@ -90,7 +90,7 @@ function CollectionDetail({ id, session }) {
   }
 
   return (
-    <section className="flex max-lg:flex-col lg:gap-x-8 max-lg:items-center">
+    <section className="flex max-lg:flex-col lg:gap-x-8 max-lg:items-center max-w-[1600px] mx-auto relative">
       {collection && (
         <div className="flex flex-col bg-[var(--element-color)] rounded-2xl p-4 mb-4 max-lg:w-full max-w-[600px] lg:min-w-[400px] xl:w-[500px] h-fit lg:sticky top-0">
           <div className="flex flex-wrap items-center gap-x-2 mb-2">
