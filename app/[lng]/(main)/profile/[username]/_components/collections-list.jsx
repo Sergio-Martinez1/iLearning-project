@@ -3,12 +3,14 @@ import { useEffect, useState } from "react";
 import Collection from "./collection";
 import CreateColletion from "./create-collection";
 import { useTranslation } from "react-i18next";
+import { useRouter } from "next/navigation";
 
 function CollectionsList({ user, author }) {
   const [collections, setCollections] = useState([]);
   const baseURL = process.env.NEXTAUTH_URL || "";
   const [loading, setLoading] = useState(true);
   const { t } = useTranslation();
+  const router = useRouter();
 
   useEffect(() => {
     async function fetchData() {
@@ -24,6 +26,10 @@ function CollectionsList({ user, author }) {
     }
     fetchData();
   }, []);
+
+  // useEffect(()=>{
+  //   router.refresh()
+  // },[collections])
 
   const addCollection = (data) => {
     setCollections((prevCollections) => [data, ...prevCollections]);
@@ -70,16 +76,17 @@ function CollectionsList({ user, author }) {
             {t("collection_list_no_content")}
           </span>
         )}
-        {collections.map((collection, index) => (
-          <div key={index} className="mb-4 w-fit md:w-96">
+        {collections.map((collection, index) => {
+          return (
             <Collection
-              collection={collection}
+              key={index}
+              collectionData={collection}
               onDeleteCollection={deleteCollection}
               onEditCollection={editCollection}
               author={author}
             ></Collection>
-          </div>
-        ))}
+          );
+        })}
       </section>
       {author && (
         <CreateColletion
