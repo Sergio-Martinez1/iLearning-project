@@ -1,14 +1,14 @@
 "use client";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { MdDeleteOutline } from "react-icons/md";
 import { RiEdit2Line } from "react-icons/ri";
-import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { MdOutlineImageNotSupported } from "react-icons/md";
 import { useTranslation } from "react-i18next";
+import CustomForm from "@/app/[lng]/_components/customForm";
 
 function Collection({
-  collection,
+  collectionData,
   onDeleteCollection,
   onEditCollection,
   author,
@@ -18,17 +18,18 @@ function Collection({
   const deleteDialog = useRef(null);
   const editDialog = useRef(null);
   const [loading, setLoading] = useState(false);
-  const [nameValue, setNameValue] = useState(collection.name);
-  const [descriptionValue, setDescriptionValue] = useState(
-    collection.description
-  );
-  const [topicValue, setTopicValue] = useState(collection.topic);
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
   const { t } = useTranslation();
+  const inputName = useRef(null);
+  const inputDescription = useRef(null);
+  const inputTopic = useRef(null);
+  const [collection, setCollection] = useState(collectionData);
+
+  useEffect(() => {
+    setCollection(collectionData);
+    inputName.current.value = collectionData.name
+    inputDescription.current.value = collectionData.description
+    inputTopic.current.value = collectionData.topic
+  }, [collectionData]);
 
   function displayDeleteDialog() {
     deleteDialog.current.showModal();
@@ -39,9 +40,9 @@ function Collection({
   }
 
   function closeEditDialog() {
-    setNameValue(collection.name);
-    setDescriptionValue(collection.description);
-    setTopicValue(collection.topic);
+    inputName.current.value = collectionData.name;
+    inputDescription.current.value = collectionData.description;
+    inputTopic.current.value = collectionData.topic;
     editDialog.current.close("exit");
   }
 
@@ -58,28 +59,6 @@ function Collection({
     }
     setLoading(false);
   }
-
-  const editCollection = handleSubmit(async (data) => {
-    setLoading(true);
-    const formData = new FormData();
-    formData.append("name", data.name);
-    formData.append("description", data.description);
-    formData.append("topic", data.topic);
-    formData.append("thumbnail_url", collection.thumbnail_url);
-    if (data.thumbnail[0]) {
-      formData.append("thumbnail", data.thumbnail[0]);
-    }
-    const res = await fetch(`${baseURL}/api/collections/${collection._id}`, {
-      method: "PUT",
-      body: formData,
-    });
-    if (res.ok) {
-      const newCollection = await res.json();
-      onEditCollection(newCollection);
-      editDialog.current.close("success");
-    }
-    setLoading(false);
-  });
 
   return (
     <section className="w-fit">
@@ -150,152 +129,91 @@ function Collection({
           </div>
         </div>
       </dialog>
-      <dialog
-        ref={editDialog}
-        className="rounded-2xl bg-[var(--element-color)]"
-      >
-        <form
-          onSubmit={editCollection}
-          className="rounded-2xl pb-4 flex flex-col w-80"
-        >
-          <h1 className="text-2xl font-bold px-4 pt-4 pb-2 w-full flex justify-between sticky top-0 bg-[var(--element-color)] rounded-b-2xl">
-            <span className="flex justify-self-center self-center">
-              {t("edit_dialog_title")}
-            </span>
-            <button
-              type="button"
-              className="flex justify-self-end w-fit h-fit text-[12px] py-1 px-4"
-              onClick={closeEditDialog}
-            >
-              X
-            </button>
-          </h1>
-          <div className="flex gap-x-2 mb-4 px-6 flex-wrap gap-y-2 justify-center">
-            <div className="w-full">
-              <div className="flex flex-col mb-4">
-                <label htmlFor="name" className="mb-2 font-bold">
-                  {t("edit_dialog_label_1")}:
-                </label>
-                <input
-                  type="text"
-                  className="h-8"
-                  value={nameValue}
-                  onInput={(event) => {
-                    setNameValue(event.target.value);
-                  }}
-                  {...register("name", {
-                    required: {
-                      value: true,
-                      message: t("edit_dialog_error_label_1"),
-                    },
-                  })}
-                />
-                {errors.name && (
-                  <span className="text-red-500 text-sm mt-1">
-                    {errors.name.message}
-                  </span>
-                )}
-              </div>
-              <div className="flex flex-col mb-4">
-                <label htmlFor="description" className="mb-2 font-bold">
-                  {t("edit_dialog_label_2")}
-                </label>
-                <textarea
-                  id="description"
-                  rows={5}
-                  cols={33}
-                  value={descriptionValue}
-                  onInput={(event) => {
-                    setDescriptionValue(event.target.value);
-                  }}
-                  {...register("description", {
-                    required: {
-                      value: true,
-                      message: t("edit_dialog_error_label_2"),
-                    },
-                  })}
-                ></textarea>
-                {errors.description && (
-                  <span className="text-red-500 text-sm mt-1">
-                    {errors.description.message}
-                  </span>
-                )}
-              </div>
-              <div className="flex flex-col">
-                <label htmlFor="topic" className="mb-2 font-bold">
-                  {t("edit_dialog_label_3")}
-                </label>
-                <select
-                  id="topic"
-                  className="h-8 w-32 px-2 mb-4"
-                  value={topicValue}
-                  onInput={(event) => {
-                    setTopicValue(event.target.value);
-                  }}
-                  {...register("topic", {
-                    required: {
-                      value: true,
-                      message: t("edit_dialog_error_label_3"),
-                    },
-                  })}
-                >
-                  <option value="Books">
-                    {t("edit_dialog_label_3_option_1")}
-                  </option>
-                  <option value="Signs">
-                    {t("edit_dialog_label_3_option_2")}
-                  </option>
-                  <option value="Silverware">
-                    {t("edit_dialog_label_3_option_3")}
-                  </option>
-                  <option value="Other">
-                    {t("edit_dialog_label_3_option_4")}
-                  </option>
-                </select>
-                {errors.topic && (
-                  <span className="text-red-500 text-sm ml-2 mt-1">
-                    {errors.topic.message}
-                  </span>
-                )}
-              </div>
-              <div className="flex flex-col">
-                {collection.thumbnail_url && (
-                  <span className="font-bold text-[var(--text-color)] mb-2">
-                    {t("edit_dialog_actual_image")}
-                  </span>
-                )}
-                {collection.thumbnail_url && (
-                  <img
-                    className="mb-4 h-[200px] object-contain"
-                    src={collection.thumbnail_url}
-                  />
-                )}
-                <label htmlFor="thumbnail" className="mb-2 font-bold">
-                  {t("edit_dialog_new_image")}
-                </label>
-                <input
-                  type="file"
-                  accept=".png, .jpeg, .jpg"
-                  className="text-sm"
-                  {...register("thumbnail")}
-                />
-              </div>
-            </div>
-          </div>
 
-          <button
-            type="submit"
-            className="mt-7 w-40 self-center flex justify-center disabled:opacity-40"
-            disabled={loading}
-          >
-            {loading ? (
-              <div className="loader"></div>
-            ) : (
-              t("edit_dialog_submit_button")
+      <CustomForm
+        title={t("edit_dialog_title")}
+        buttonTitle={t("edit_dialog_submit_button")}
+        url={`${baseURL}/api/collections/${collection._id}`}
+        method={"PUT"}
+        ref={editDialog}
+        onClose={closeEditDialog}
+        onSubmit={(data) => {
+          onEditCollection(data);
+          editDialog.current.close("success");
+        }}
+      >
+        <div className="w-full">
+          <div className="flex flex-col mb-4">
+            <label htmlFor="name" className="mb-2 font-bold">
+              {t("edit_dialog_label_1")}:
+            </label>
+            <input
+              ref={inputName}
+              name="name"
+              id="name"
+              type="text"
+              className="h-8"
+            />
+          </div>
+          <div className="flex flex-col mb-4">
+            <label htmlFor="description" className="mb-2 font-bold">
+              {t("edit_dialog_label_2")}
+            </label>
+            <textarea
+              ref={inputDescription}
+              name="description"
+              id="description"
+              rows={5}
+              cols={33}
+            ></textarea>
+          </div>
+          <div className="flex flex-col">
+            <label htmlFor="topic" className="mb-2 font-bold">
+              {t("edit_dialog_label_3")}
+            </label>
+            <select
+              name="topic"
+              ref={inputTopic}
+              id="topic"
+              className="h-8 w-32 px-2 mb-4"
+            >
+              <option value="Books">{t("edit_dialog_label_3_option_1")}</option>
+              <option value="Signs">{t("edit_dialog_label_3_option_2")}</option>
+              <option value="Silverware">
+                {t("edit_dialog_label_3_option_3")}
+              </option>
+              <option value="Other">{t("edit_dialog_label_3_option_4")}</option>
+            </select>
+          </div>
+          <div className="flex flex-col">
+            {collection.thumbnail_url && (
+              <span className="font-bold text-[var(--text-color)] mb-2">
+                {t("edit_dialog_actual_image")}
+              </span>
             )}
-          </button>
-        </form>
-      </dialog>
+            {collection.thumbnail_url && (
+              <img
+                className="mb-4 h-[200px] object-contain"
+                src={collection.thumbnail_url}
+              />
+            )}
+            <label htmlFor="thumbnail" className="mb-2 font-bold">
+              {t("edit_dialog_new_image")}
+            </label>
+            <input
+              type="hidden"
+              name="thumbnail_url"
+              value={collection.thumbnail_url || ""}
+            />
+            <input
+              name="thumbnail"
+              type="file"
+              accept=".png, .jpeg, .jpg"
+              className="text-sm"
+            />
+          </div>
+        </div>
+      </CustomForm>
     </section>
   );
 }
