@@ -1,5 +1,5 @@
 "use client";
-
+export const fetchCache = 'force-no-store'
 import { Suspense, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
