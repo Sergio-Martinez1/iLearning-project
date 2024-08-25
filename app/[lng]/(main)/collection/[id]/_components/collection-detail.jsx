@@ -207,10 +207,10 @@ function CollectionDetail({ id, session }) {
             url={`${baseURL}/api/items/collection/${id}`}
             method={"POST"}
             ref={addItemDialog}
-            onSubmit={(data) => {
+            onSubmit={async (data) => {
               addItemDialog.current.close();
               setItems((prevItems) => [...prevItems, data]);
-              revalidatePath("/dashboard");
+              await fetch(`${baseURL}/api/revalidate`);
             }}
           >
             <span>
