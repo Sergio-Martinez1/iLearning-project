@@ -5,6 +5,12 @@
       "headers": {
         "cache-control": "no-store, max-age=0, must-revalidate"
       }
+    },
+    {
+      "src": "/dashboard",
+      "headers": {
+        "cache-control": "no-store, max-age=0, must-revalidate"
+      }
     }
   ]
 }
