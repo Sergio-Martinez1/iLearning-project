@@ -9,6 +9,7 @@ import { MdOutlineImageNotSupported } from "react-icons/md";
 import { CiSettings } from "react-icons/ci";
 import { useTranslation } from "react-i18next";
 import TagsInput from "./tagsInput";
+import { revalidatePath } from "next/cache";
 
 function CollectionDetail({ id, session }) {
   const [collection, setCollection] = useState(null);
@@ -209,6 +210,7 @@ function CollectionDetail({ id, session }) {
             onSubmit={(data) => {
               addItemDialog.current.close();
               setItems((prevItems) => [...prevItems, data]);
+              revalidatePath("/dashboard");
             }}
           >
             <span>
