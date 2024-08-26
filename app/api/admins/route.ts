@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from '@/db/db_config'
 import User from '@/db/models/user.models'
+export const revalidate = 0
 
 export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
     try {

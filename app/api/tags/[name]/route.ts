@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from '@/db/db_config'
 import { getServerSession } from 'next-auth/next'
 import Tag from '@/db/models/tag.models'
+export const revalidate = 0
 
 export async function GET(request: NextRequest, { params }: { params: { name: string } }) {
     try {
