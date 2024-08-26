@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { connectDB } from '@/db/db_config'
 import Item from '@/db/models/item.model'
+import User from '@/db/models/user.models'
+import Group from '@/db/models/group.models'
 export const revalidate = 0
 
 export async function GET() {
