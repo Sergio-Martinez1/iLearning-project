@@ -28,7 +28,7 @@ function LoginForm({ errorMessage }) {
     if (res.error) {
       setError(res.error);
     } else {
-      router.refresh();
+      //router.refresh();
       window.location.reload()
     }
     setLoading(false);
