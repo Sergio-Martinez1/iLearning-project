@@ -4,6 +4,7 @@ import Comment from "./comment";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { sendMessage, deleteMessage } from "@/app/[lng]/actions/message.action";
+import { useRouter } from "next/navigation";
 
 function Comments({ session, id }) {
   const baseURL = process.env.NEXTAUTH_URL || "";
@@ -12,6 +13,7 @@ function Comments({ session, id }) {
   const [comments, setComments] = useState([]);
   const [error, setError] = useState(null);
   const { t } = useTranslation();
+  const router = useRouter();
 
   useEffect(() => {
     pusherClient.subscribe(`comments_${id}`);
