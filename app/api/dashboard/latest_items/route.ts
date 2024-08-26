@@ -8,6 +8,7 @@ export const revalidate = 0
 export async function GET() {
   try {
     await connectDB()
+    await User.init()
     const items = await Item.find().populate('user', 'username').populate('group', 'name').sort({ createdAt: -1 }).limit(20)
     if (!items) return NextResponse.json({ error: 'Items not found' }, { status: 404 });
     return NextResponse.json(items);
