@@ -1,4 +1,10 @@
 import mongoose, { Mongoose } from 'mongoose'
+import User from './models/user.models';
+import Group from './models/group.models';
+import Item from './models/item.model';
+import Comment from './models/comment.model';
+import Tag from './models/tag.models'
+
 
 const MONGODB_URL = process.env.MONGODB_URL
 if (!MONGODB_URL) {
