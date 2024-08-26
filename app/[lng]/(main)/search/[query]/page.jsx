@@ -13,7 +13,7 @@ async function SearchPage({ params }) {
       namespaces={i18nNameSpaces}
     >
       <main className="relative h-screen flex flex-col grow overflow-y-auto items-center">
-        <section className="max-w-[1000px] w-full h-full px-4 pb-5 relative flex flex-col">
+        <section className="max-w-[1000px] w-full h-fit px-4 pb-5 relative flex flex-col">
           <span className="text-3xl sticky top-0 pt-4 z-10 bg-[var(--bg-color)]">
             {t("title")} <b>{params.query}</b>:
           </span>
