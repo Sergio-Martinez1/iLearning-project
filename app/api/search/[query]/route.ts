@@ -3,6 +3,7 @@ import commentModel from "@/db/models/comment.model";
 import groupModels from "@/db/models/group.models";
 import itemModel from "@/db/models/item.model";
 import { NextRequest, NextResponse } from "next/server";
+export const revalidate = 0
 
 export async function GET(request: NextRequest, { params }: { params: { query: string } }) {
     try {
