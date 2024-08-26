@@ -99,7 +99,7 @@ function TagsInputs({ itemTags }) {
             onKeyDown={selectTag}
             type="text"
           />
-          <div className="flex gap-y-1 gap-x-1">
+          <div className="flex gap-y-2 gap-x-2 flex-wrap">
             {tags &&
               tags.map((tag, index) => (
                 <span
@@ -114,7 +114,7 @@ function TagsInputs({ itemTags }) {
                     setTags([]);
                   }}
                   key={index}
-                  className="text-[var(--text-color)] bg-[var(--element-color)] text-sm flex rounded-2xl items-center w-full h-fit py-0.5 px-2 gap-x-1 hover:bg-[var(--accent-color)] hover:text-white active:bg-[var(--element-color)]"
+                  className="text-[var(--text-color)] bg-[var(--element-color)] text-sm flex rounded-2xl items-center w-fit h-fit py-0.5 px-2 gap-x-1 hover:bg-[var(--accent-color)] hover:text-white active:bg-[var(--element-color)]"
                 >
                   {tag.name}
                 </span>
