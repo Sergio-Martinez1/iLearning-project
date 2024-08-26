@@ -11,8 +11,7 @@ function LogOutButton() {
       className="p-0 pl-0.5 flex items-center justify-center w-8 h-8 md:w-10 md:h-10 rounded-full"
       onClick={() => {
         signOut();
-        //router.refresh("/");
-        window.location.reload()
+        router.refresh("/");
       }}
     >
       <MdLogout size={25}></MdLogout>
