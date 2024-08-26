@@ -41,9 +41,9 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: Numbe
         const userSession = await User.findOne({ username: session.user?.name })
         const currentItem = await Item.findOne({ _id: params.id })
         if (!currentItem) return NextResponse.json({ error: 'Item not found' }, { status: 404 })
-        if (userSession.role !== 'admin') {
-            if (userSession._id.toString() !== currentItem.user.toString()) return NextResponse.json({ error: 'Not allowed' }, { status: 403 })
-        }
+        //if (userSession.role !== 'admin') {
+        //    if (userSession._id.toString() !== currentItem.user.toString()) return NextResponse.json({ error: 'Not allowed' }, { status: 403 })
+        //}
 
         let reactionExist = userSession.reactions.filter((reactionId: Number) => reactionId === params.id)
         if (reactionExist.length == 0) return NextResponse.json({ error: 'Reaction does not exist' }, { status: 400 })
