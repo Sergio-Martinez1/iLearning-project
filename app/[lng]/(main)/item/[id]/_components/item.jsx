@@ -14,6 +14,7 @@ function ItemDetails({ id }) {
   const [isLiked, setIsLiked] = useState(false);
   const [reactionsCount, setReactionsCount] = useState(0);
   const [loadingMain, setLoadingMain] = useState(true);
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { t } = useTranslation();
 
@@ -49,6 +50,7 @@ function ItemDetails({ id }) {
         router.push("/login");
         return;
       }
+      setLoading(true);
       setIsLiked(true);
       setReactionsCount((count) => count + 1);
       const res = await fetch(`${baseURL}/api/reactions/item/${id}`, {
@@ -58,8 +60,10 @@ function ItemDetails({ id }) {
         setIsLiked(false);
         setReactionsCount((count) => count - 1);
       }
+      setLoading(false);
     } catch (error) {
       setIsLiked(false);
+      setLoading(false);
       setReactionsCount((count) => count - 1);
     }
   }
@@ -70,6 +74,7 @@ function ItemDetails({ id }) {
         router.push("/login");
         return;
       }
+      setLoading(true);
       setIsLiked(false);
       setReactionsCount((count) => count - 1);
       const res = await fetch(`${baseURL}/api/reactions/item/${id}`, {
@@ -79,8 +84,10 @@ function ItemDetails({ id }) {
         setIsLiked(true);
         setReactionsCount((count) => count + 1);
       }
+      setLoading(false);
     } catch (error) {
       setIsLiked(true);
+      setLoading(false);
       setReactionsCount((count) => count + 1);
     }
   }
@@ -101,6 +108,7 @@ function ItemDetails({ id }) {
             <div className="flex gap-x-4 items-center mb-2">
               <span className="font-bold text-2xl">{item["name"]}</span>
               <button
+                disabled={loading}
                 onClick={() => {
                   if (isLiked) {
                     removeReaction();
@@ -108,9 +116,8 @@ function ItemDetails({ id }) {
                     addReaction();
                   }
                 }}
-                className={`${
-                  isLiked ? "bg-red-600 hover:bg-red-600 active:bg-red-600" : ""
-                } flex items-center gap-x-2`}
+                className={`${isLiked ? "bg-red-600 hover:bg-red-600 active:bg-red-600" : ""
+                  } flex items-center gap-x-2`}
               >
                 {reactionsCount}
                 {isLiked ? <FaHeart /> : <FaRegHeart />}
