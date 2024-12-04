@@ -60,7 +60,7 @@ export default async function RootLayout({
             )
           }
           <ChangeLocale></ChangeLocale>
-          <ThemeButton session={session}></ThemeButton>
+          <ThemeButton></ThemeButton>
           {session &&
             <SessionWrapper>
               <LogOutButton></LogOutButton>
