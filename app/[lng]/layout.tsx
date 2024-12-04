@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/libs/auth";
+import { Providers } from "@/app/[lng]/providers";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,14 +15,15 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const session = await getServerSession(authOptions)
 
   return (
-    <html data-theme={session?.theme || "light"}>
+    <html suppressHydrationWarning>
       <body className={inter.className}>
-        <div className="w-full h-screen flex flex-col">
-          {children}
-        </div>
+        <Providers>
+          <div className="w-full h-screen flex flex-col">
+            {children}
+          </div>
+        </Providers>
       </body>
     </html>
   );

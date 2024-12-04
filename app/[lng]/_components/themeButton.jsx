@@ -1,29 +1,40 @@
 "use client";
-import { useState } from "react";
-import { CgDarkMode } from "react-icons/cg";
-import { IoSunnyOutline } from "react-icons/io5";
-import { FaMoon } from "react-icons/fa";
 
-function ThemeButton({ session }) {
+import { useEffect, useState } from "react";
+import { PiClockAfternoon } from "react-icons/pi";
+import { FaMoon, FaSun } from "react-icons/fa";
+import { useTheme } from "next-themes";
+
+function ThemeButton() {
+  const [mounted, setMounted] = useState(false);
   const baseURL = process.env.NEXTAUTH_URL || "";
-  const [theme, setTheme] = useState("light");
+  const { setTheme, resolvedTheme } = useTheme();
 
-  async function toggleTheme() {
-    const currentTheme = document.documentElement.getAttribute("data-theme");
-    const newTheme = currentTheme === "dark" ? "light" : "dark";
-    setTheme(newTheme);
-    document.documentElement.setAttribute("data-theme", newTheme);
-    await fetch(`${baseURL}/api/theme/${newTheme}`, { method: "PUT" });
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  async function toggleTheme(theme) {
+    await fetch(`${baseURL}/api/theme/${theme}`, { method: "PUT" });
   }
 
-  return (
-    <button
-      onClick={toggleTheme}
-      className="p-0 m-0 w-8 h-8 md:w-10 md:h-10 rounded-full flex justify-center items-center"
-    >
-      {theme === "light" ? <FaMoon size={22} /> : <IoSunnyOutline size={25} />}
-    </button>
+  if (!mounted) return (
+    <PiClockAfternoon size={22} />
   );
+
+  if (resolvedTheme === 'dark') {
+    return <FaSun size={22} onClick={() => {
+      setTheme('light');
+      toggleTheme('light');
+    }} />
+  };
+
+  if (resolvedTheme === 'light') {
+    return <FaMoon size={22} onClick={() => {
+      setTheme('dark');
+      toggleTheme('dark')
+    }} />
+  };
 }
 
 export default ThemeButton;

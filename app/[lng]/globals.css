@@ -14,7 +14,7 @@
   --hover-warning-color: #8c0000;
 }
 
-[data-theme="dark"] {
+.dark {
   --bg-color: #0f172a;
   --element-color: #1d293b;
   --element-secondary-color: #161f2c;
@@ -23,18 +23,6 @@
   --text-color: #ffffff;
   --border-color: #ffffff;
 }
-
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    --bg-color: #0f172a;
-    --element-color: #1d293b;
-    --element-secondary-color: #161f2c;
-    --accent-color: #6668f1;
-    --hover-color: #5052f2;
-    --text-color: #ffffff;
-    --border-color: #ffffff;
-  }
-} */
 
 body {
   background-color: var(--bg-color);
