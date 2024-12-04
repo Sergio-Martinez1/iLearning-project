@@ -69,8 +69,8 @@ function CollectionsList({ user, author }) {
   }
 
   return (
-    <div className="grow">
-      <section className="px-4 w-fit h-fit flex flex-col md:flex-row md:flex-wrap md:gap-x-4 items-center md:justify-center md:items-start">
+    <div className="grow max-w-[1600px]">
+      <section className="px-4 w-fit h-fit flex flex-col md:flex-row md:flex-wrap md:gap-x-6 md:gap-y-2 items-center md:justify-center md:items-start">
         {collections.length == 0 && (
           <span className="flex w-fit h-full items-center mx-auto self-center opacity-50">
             {t("collection_list_no_content")}

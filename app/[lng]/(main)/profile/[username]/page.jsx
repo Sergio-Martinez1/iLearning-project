@@ -26,7 +26,7 @@ async function ProfilePage({ params }) {
     >
       <section className="relative h-screen flex flex-col grow overflow-y-auto mb-[80px] items-center">
         <header className="flex flex-col">
-          <h1 className="self-center mb-4 text-xl font-bold mt-4 bg-[var(--element-color)] rounded-2xl px-4 py-2 shadow-sm">
+          <h1 className="self-center mb-6 text-xl font-bold mt-4 bg-[var(--element-color)] rounded-2xl px-4 py-2 shadow-sm">
             {session ? t("header") : t("header_with_name", { username })}
           </h1>
         </header>
